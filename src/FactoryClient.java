@@ -1,29 +1,25 @@
-import Factory.Flutter;
-import Factory.Platform;
-import Factory.Products.Button;
-import Factory.Products.Menu;
-import Factory.UIFactory;
+import Factory.Notification;
+import Factory.NotificationFactory;
+import Factory.NotificationType;
 
 import java.util.Random;
 
 public class FactoryClient {
     public static void main(String[] args) {
-        Platform platform = getRandomPlatform();
-        UIFactory uiFactory = Flutter.getUIFactoryByPlatForm(platform);
-
-        Menu menu = uiFactory.createMenu();
-        menu.render();
-
-        Button button = uiFactory.createButton();
-        button.click();
+        NotificationType notificationType = getNotificationType();
+        Notification notification = NotificationFactory.getNotification(notificationType, "World", "Hello World...", "Akhil");
+        notification.sendNotification();
     }
 
-    public static Platform getRandomPlatform() {
+    public static NotificationType getNotificationType() {
         Random random = new Random();
-        int num = random.nextInt();
-        if (num % 2 == 0)
-            return Platform.ANDROID;
+        int num = random.nextInt(1, 4);
+        if (num == 1)
+            return NotificationType.EMAIL;
+        else if (num == 2)
+            return NotificationType.SMS;
         else
-            return Platform.IOS;
+            return NotificationType.PUSH;
+
     }
 }
